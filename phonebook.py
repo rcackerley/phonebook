@@ -16,14 +16,27 @@ def delete_an_entry(name):
         print '%s has been removed from the Contact List.' % name
 
 def list_all_entries():
-    for entry in phonebook_entries:
-        print entry, phonebook_entries[entry]
+    sort_reason = raw_input("How would you like to sort? Name or Number? ").lower()
+    if sort_reason == 'name':
+        sorted_phonebook = sorted(phonebook_entries, key=getName)
+        for entry in sorted_phonebook:
+            print entry, phonebook_entries[entry]
+    elif sort_reason == 'number':
+        sorted_phonebook = sorted(phonebook_entries, key=getNumber, reverse=True)
+        for entry in sorted_phonebook:
+            print entry, phonebook_entries[entry]
 
 phonebook_entries = {
     'Robby': '706-202-7841',
     'Mell': '706-769-2555',
     'Kristen': '770-500-0377'
 }
+
+def getName(c):
+    return c
+def getNumber(c):
+    return c[0]
+
 
 def user_prompt():
     print '''
@@ -46,7 +59,8 @@ while user_request != 5:
     if user_request == 1:
         name = raw_input('Who do you want to look up? ')
         look_up_entry(name)
-        # user_request = user_prompt()
+        user_request = user_prompt()
+    # add entry
     elif user_request == 2:
         new_name = raw_input('Who do you want to add? ')
         new_number = raw_input('What is their phone number? ')
